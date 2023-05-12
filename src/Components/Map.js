@@ -141,7 +141,7 @@ const clear = ()=>{
       </Button>
       </Box>
         </Box>
-           <Box sx={{width:{xs:"100%" , md:"490px"} , height:"155px" , background:props.border , margin:"2em 0" , borderRadius:"8px" , padding:"1em 1em" , display:"flex" ,flexDirection:"column" , gap:"40px" , boxShadow:"inset 2px 0px 7px white"}}>
+           <Box sx={{width:{xs:"100%" , md:"490px"} , height:{xs:"100%" , md:"155px"} , background:props.border , margin:"2em 0" , borderRadius:"8px" , padding:"1em 1em" , display:"flex" ,flexDirection:"column" , gap:"40px" , boxShadow:"inset 2px 0px 7px white"}}>
         <Box sx={{display:"flex" , justifyContent:"space-between" , alignItems:"center"}}>
         <Typography sx={{color:props.letter ,fontSize:"22px" , fontWeight:"700"}}>Distance</Typography>
         <Typography sx={{color:"#0079FF" , fontSize:"30px" , fontWeight:"700"}}>{distance}</Typography>
