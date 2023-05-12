@@ -50,7 +50,12 @@ const calculate = async()=>{
         waypoints: waypoints
     })
     setDirectionres(result)
-    setDistance(result.routes[0].legs[0].distance.text)
+  let totalDistance = 0;
+  result.routes[0].legs.forEach((leg) => {
+    totalDistance += leg.distance.value;
+  });
+  setDistance(totalDistance / 1000 + 'Kms');
+
     setOriginValue(originRef.current.value);
     setDestinationValue(destinationRef.current.value);
 }
@@ -58,7 +63,6 @@ const calculate = async()=>{
 const clear = ()=>{
     setDirectionres(null)
     setDistance('')
-    setOriginValue(null)
     setOriginValue(null)
     originRef.current.value = null
     stopRef.current.value = null
