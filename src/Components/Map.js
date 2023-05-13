@@ -7,11 +7,12 @@ import PinDropIcon from '@mui/icons-material/PinDrop';
 import StopCircleIcon from '@mui/icons-material/StopCircle';
 import {Autocomplete, DirectionsRenderer, GoogleMap, Marker, useJsApiLoader} from '@react-google-maps/api'
 import DeleteIcon from '@mui/icons-material/Delete';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 export default function Map(props) {
 
 const key = 'AIzaSyAYBivEevsC3sXYWfY6n9803tvASqB0TUI';
 const center = { lat: 18.9219846, lng: 72.8331227 };
-
+const [stops, setStops] = useState([]);
 const[directionres , setDirectionres] = useState(null)
 const[distance , setDistance] = useState('')
 const [originValue, setOriginValue] = useState('');
@@ -30,6 +31,13 @@ if(!isLoaded){
    return <div>Error</div>
 }
 
+const handleAddStop = () => {
+  if (stopRef.current.value !== '') {
+    setStops([...stops, stopRef.current.value]);
+    stopRef.current.value = '';
+  }
+};
+
 const calculate = async()=>{
     if(originRef.current.value === '' || destinationRef.current.value === ''){
         return alert('Please Fill the location')
@@ -37,10 +45,12 @@ const calculate = async()=>{
     /*global google */
     const directionservice = new google.maps.DirectionsService()
     const waypoints = [];
-    if (stopRef.current.value !== '') {
-        waypoints.push({
-            location: stopRef.current.value,
-            stopover: true,
+    if (stops.length > 0) {
+        stops.forEach(stop => {
+            waypoints.push({
+                location: stop,
+                stopover: true,
+            });
         });
     }
     const result = await directionservice.route({
@@ -70,13 +80,13 @@ const clear = ()=>{
 }
   return (
     <>
-    <Box sx={{background:props.color, display:"flex" , flexDirection:"column", alignItems:"center" , padding:"2em 1em" , gap:"20px"}}>
-         <Typography sx={{color:"rgba(27, 49, 168, 1)" ,fontSize:"20px"}}>Let's calculate <span style={{fontWeight:"600" ,color:"rgba(27, 49, 168, 1)"}}> distance </span>from Google Maps</Typography>
+    <Box sx={{background:props.color, display:"flex" , flexDirection:"column", alignItems:"center" , padding:{xs:"0" , md:"2em 1em"} , gap:"20px"}}>
+         <Typography sx={{color:"rgba(27, 49, 168, 1)" ,fontSize:"20px" , display:{xs:"none" , md:"block"}}}>Let's calculate <span style={{fontWeight:"600" ,color:"rgba(27, 49, 168, 1)"}}> distance </span>from Google Maps</Typography>
          <Box sx={{display:"flex" , justifyContent:"center" ,flexWrap:"wrap-reverse", alignItems:"center" , gap:{xs:"20px" , md:"100px"}}}>
-               <Box sx={{ padding:"4em 2em" ,  width: { xs: "100%", md: '560px' } , height:"100%" , display:"flex" , justifyContent:"center" , alignItems:"center" , flexDirection:"column"} }>
+               <Box sx={{ padding:{xs:"1em 2em" , md:"4em 2em"} ,  width: { xs: "100%", md: '560px' } , height:"100%" , display:"flex" , justifyContent:"center" , alignItems:"center" , flexDirection:"column"} }>
                <Box
       sx={{
-        '& .MuiTextField-root': { m: 1, width: '25ch' }, display:"flex" , justifyContent:{xs:"center" , md:"start"} , alignItems:"center" , gap:{xs:"40px" , md:"100px"} , flexDirection:{xs:"column" , md:"row"}
+        '& .MuiTextField-root': { m: 1, width:{xs:"76vw" , md:"25ch"} }, display:"flex" , justifyContent:{xs:"center" , md:"start"} , alignItems:"center" , gap:{xs:"40px" , md:"100px"} , flexDirection:{xs:"column" , md:"row"}
       }}
       autoComplete="off"
     >
@@ -99,6 +109,7 @@ const clear = ()=>{
           size="small"
         />
         </Autocomplete>
+        <Box sx={{display:"flex" , flexDirection:"column"}}>
         <Autocomplete>
         <TextField
           label="Stop"
@@ -117,6 +128,8 @@ const clear = ()=>{
 }}
         />
         </Autocomplete>
+       <Typography onClick={handleAddStop} sx={{alignSelf:"flex-end" , alignItems:"center" , display:"flex" , fontSize:"12px" , color:props.icon}}> <AddCircleOutlineIcon sx={{transform:"Scale(0.5)"}}/> Add another stop</Typography>
+        </Box>
           <Autocomplete>
          <TextField
           label="Destination"
