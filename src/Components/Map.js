@@ -10,7 +10,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 export default function Map(props) {
 
-const key = 'AIzaSyAYBivEevsC3sXYWfY6n9803tvASqB0TUI';
+const key = 'AIzaSyBZFkMn7TVjBeRrrsaJm0BJyDyZAPhx3oo';
 const center = { lat: 18.9219846, lng: 72.8331227 };
 const [stops, setStops] = useState([]);
 const[directionres , setDirectionres] = useState(null)
